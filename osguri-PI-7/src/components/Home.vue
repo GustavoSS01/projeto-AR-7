@@ -7,11 +7,10 @@
       </p>
     </section>
     <section class="quem-somos">
-      <h2 @click="contarClique">Quem Somos</h2>
+      <h2>Quem Somos</h2>
       <ul>
         <li>Adrian Modesto Lauzid</li>
-        <li>Artur Lima da Silva</li>
-        <li v-if="mostrarMembro">Celso Gabriel Sampietri</li>
+        <li>Artur Vinícius Lima Ramos da Silva</li>
         <li>Gustavo dos Santos Silva</li>
         <li>Lucas Pereira de Souza</li>
       </ul>
@@ -25,21 +24,13 @@
 <script>
 export default {
   name: 'HomePage',
-  data() {
-    return {
-      mostrarMembro: false
-    }
-  },
   methods: {
     irParaApp() {
       // Redireciona para a rota do aplicativo principal
       this.$router.push('/app');
-    },
-    contarClique() {
-      this.mostrarMembro = !this.mostrarMembro;
-      }
     }
   }
+}
 </script>
 
 <style scoped>
