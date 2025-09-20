@@ -1,7 +1,7 @@
 <template>
   <div class="app-page">
     <h1 class="header">TatuAR</h1>
-    <p class="description">Clique no botão abaixo e aponte para a parte do seu corpo que deseja visualizar a tatuagem.</p>
+    <p class="description">Clique no botão abaixo e aponte a câmera para a parte do seu corpo que deseja visualizar a tatuagem.</p>
     <div v-if="!showCamera" class="center-content">
       <button class="start-btn" @click="startCamera">Vamos lá!</button>
     </div>
