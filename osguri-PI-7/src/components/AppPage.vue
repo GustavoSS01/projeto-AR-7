@@ -7,6 +7,7 @@
     </div>
     <div v-else class="center-content">
       <video ref="video" autoplay playsinline class="camera-video"></video>
+      <button class="stop-btn" @click="stopCamera">Parar vídeo</button>
     </div>
   </div>
 </template>
@@ -32,6 +33,13 @@ export default {
       } catch (err) {
         alert('Não foi possível acessar a câmera.');
       }
+    },
+    stopCamera() {
+      if (this.stream) {
+        this.stream.getTracks().forEach(track => track.stop());
+        this.stream = null;
+      }
+      this.showCamera = false;
     },
   },
   beforeDestroy() {
@@ -89,5 +97,19 @@ export default {
   margin-bottom: 1rem;
   font-weight: 600;
   font-size: larger;
+}
+.stop-btn {
+  margin-top: 1.5rem;
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  background: #d32f2f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.stop-btn:hover {
+  background: #b71c1c;
 }
 </style>
