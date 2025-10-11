@@ -65,7 +65,7 @@ export default {
       // corrigindo o caminho - o arquivo se chama marker.patt, não maker.patt
       markerPath: '/marker/marker.patt',
       // usando caminho direto para a imagem na pasta public
-      tattooUrl: '/src/assets/tattoos/teste2.png',
+      tattooUrl: '/src/assets/tattoos/tatuagemteste.png',
       planeSize: 1.5, // aumentando o tamanho para melhor visualização
     };
   },

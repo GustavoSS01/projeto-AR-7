@@ -11,6 +11,7 @@
       <ul>
         <li>Adrian Modesto Lauzid</li>
         <li>Artur Vinícius Lima Ramos da Silva</li>
+        <li>Celso Gabriel Bezerra Sampietri Pinton</li>
         <li>Gustavo dos Santos Silva</li>
         <li>Lucas Pereira de Souza</li>
       </ul>
