@@ -63,9 +63,9 @@ export default {
       aframeReady: false,
       markerVisible: false,
       // corrigindo o caminho - o arquivo se chama marker.patt, não maker.patt
-      markerPath: '/marker/marker.patt',
+      markerPath: './marker/marker.patt',
       // usando caminho direto para a imagem na pasta public
-      tattooUrl: '/tattoos/tatuagemteste3.png',
+      tattooUrl: './tattoos/tatuagemteste3.png',
       planeSize: 1.5, // aumentando o tamanho para melhor visualização
     };
   },
