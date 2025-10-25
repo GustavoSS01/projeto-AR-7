@@ -7,6 +7,8 @@
       <p class="description">
         Clique no botão abaixo e aponte a câmera para o marcador para visualizar a tatuagem.
       </p>
+      <!-- Adicione o TattooSelector aqui -->
+      <TattooSelector @tattoo-selected="updateTattoo" />
       <button class="start-btn" @click="startCamera">Vamos lá!</button>
     </div>
 
@@ -55,17 +57,22 @@
 </template>
 
 <script>
+import TattooSelector from './TattooSelector.vue'
+
 export default {
   name: 'AppPage',
+  components: {
+    TattooSelector
+  },
   data() {
     return {
       showCamera: false,
       aframeReady: false,
       markerVisible: false,
       // corrigindo o caminho - o arquivo se chama marker.patt, não maker.patt
-      markerPath: '/marker/marker.patt',
+      markerPath: './marker/marker.patt',
       // usando caminho direto para a imagem na pasta public
-      tattooUrl: '/src/assets/tattoos/tatuagemteste3.png',
+      tattooUrl: './tattoos/tatuagemteste3.png',
       planeSize: 1.5, // aumentando o tamanho para melhor visualização
     };
   },
@@ -128,6 +135,9 @@ export default {
       this.markerVisible = false;
       console.log('Marker perdido! Ocultando tatuagem...');
     },
+    updateTattoo(newTattooUrl) {
+      this.tattooUrl = newTattooUrl;
+    }
   },
   beforeDestroy() {
     const videos = document.querySelectorAll('video');
