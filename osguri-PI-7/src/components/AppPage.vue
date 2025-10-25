@@ -7,6 +7,8 @@
       <p class="description">
         Clique no botão abaixo e aponte a câmera para o marcador para visualizar a tatuagem.
       </p>
+      <!-- Adicione o TattooSelector aqui -->
+      <TattooSelector @tattoo-selected="updateTattoo" />
       <button class="start-btn" @click="startCamera">Vamos lá!</button>
     </div>
 
@@ -55,8 +57,13 @@
 </template>
 
 <script>
+import TattooSelector from './TattooSelector.vue'
+
 export default {
   name: 'AppPage',
+  components: {
+    TattooSelector
+  },
   data() {
     return {
       showCamera: false,
@@ -128,6 +135,9 @@ export default {
       this.markerVisible = false;
       console.log('Marker perdido! Ocultando tatuagem...');
     },
+    updateTattoo(newTattooUrl) {
+      this.tattooUrl = newTattooUrl;
+    }
   },
   beforeDestroy() {
     const videos = document.querySelectorAll('video');
