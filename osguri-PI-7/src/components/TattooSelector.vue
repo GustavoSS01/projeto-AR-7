@@ -44,7 +44,7 @@ export default {
 <style scoped>
 .tattoo-selector {
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.9);
+  background: #696969;
   border-radius: 10px;
   max-width: 600px;
   margin: 0 auto;
@@ -58,7 +58,7 @@ export default {
 }
 
 .tattoo-item {
-  border: 2px solid #ddd;
+  border: 1px ridge #696969;
   border-radius: 8px;
   padding: 0.5rem;
   cursor: pointer;
