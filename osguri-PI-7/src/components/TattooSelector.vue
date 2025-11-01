@@ -26,8 +26,11 @@ export default {
         { id: 2, name: 'Tatuagem 2', url: './tattoos/tatuagemteste2.png' },
         { id: 3, name: 'Tatuagem 3', url: './tattoos/tatuagemteste3.png' },
         { id: 4, name: 'Tatuagem 4', url: './tattoos/tatuagemteste4.png' },
-        { id: 5, name: 'Tatuagem 5', url: './tattoos/tatuagemteste5.png' },
         { id: 6, name: 'Tatuagem 6', url: './tattoos/tatuagemteste6.png' },
+        { id: 7, name: 'Tatuagem 7', url: './tattoos/tatuagemteste7.png' },
+        { id: 8, name: 'Tatuagem 8', url: './tattoos/tatuagemteste8.png' },
+        { id: 9, name: 'Tatuagem 9', url: './tattoos/tatuagemteste9.png' },
+        { id: 10, name: 'Tatuagem 10', url: './tattoos/tatuagemteste10.png' },
         
       ]
     }
@@ -44,7 +47,7 @@ export default {
 <style scoped>
 .tattoo-selector {
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.9);
+  background: #696969;
   border-radius: 10px;
   max-width: 600px;
   margin: 0 auto;
