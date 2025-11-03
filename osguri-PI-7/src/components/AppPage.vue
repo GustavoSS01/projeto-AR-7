@@ -94,8 +94,9 @@ export default {
         if (!window.AFRAME) {
           await this.loadScript('https://aframe.io/releases/1.3.0/aframe.min.js');
         }
-        if (!window.ARJS && !document.querySelector('script[src*="aframe-ar.js"]')) {
-          await this.loadScript('https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js');
+        // Tente usar este CDN alternativo do AR.js
+        if (!window.ARJS && !document.querySelector('script[src*="ar-nft.js"]')) {
+          await this.loadScript('https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar-nft.js');
         }
 
         this.showCamera = true;
