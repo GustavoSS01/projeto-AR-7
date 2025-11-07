@@ -65,6 +65,70 @@ button:focus-visible {
   text-align: center;
 }
 
+/* Responsividade para Tablet e Mobile */
+@media (max-width: 1024px) {
+  #app {
+    max-width: 100%;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    font-size: 15px;
+  }
+  
+  #app {
+    padding: 1rem;
+  }
+  
+  h1 {
+    font-size: 2.5em;
+  }
+  
+  button {
+    padding: 0.55em 1.1em;
+    font-size: 0.95em;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    font-size: 14px;
+  }
+  
+  #app {
+    padding: 0.75rem;
+  }
+  
+  h1 {
+    font-size: 2em;
+  }
+  
+  button {
+    padding: 0.5em 1em;
+    font-size: 0.9em;
+  }
+  
+  .card {
+    padding: 1.5em;
+  }
+}
+
+@media (max-width: 360px) {
+  :root {
+    font-size: 13px;
+  }
+  
+  #app {
+    padding: 0.5rem;
+  }
+  
+  h1 {
+    font-size: 1.8em;
+  }
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

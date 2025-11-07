@@ -66,4 +66,66 @@ export default {
 .acesso-app button:hover {
   background: #444;
 }
+
+/* Responsividade Mobile */
+@media (max-width: 768px) {
+  .homepage {
+    padding: 1.5rem 1rem;
+  }
+  
+  .homepage h1 {
+    font-size: 2rem;
+  }
+  
+  .intro p {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+  
+  .quem-somos h2 {
+    font-size: 1.5rem;
+  }
+  
+  .quem-somos li {
+    font-size: 0.9rem;
+  }
+  
+  .acesso-app button {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.95rem;
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .homepage {
+    padding: 1rem 0.75rem;
+  }
+  
+  .homepage h1 {
+    font-size: 1.75rem;
+  }
+  
+  .intro {
+    margin-bottom: 1.5rem;
+  }
+  
+  .intro p {
+    font-size: 0.9rem;
+  }
+  
+  .quem-somos {
+    margin-bottom: 1.5rem;
+  }
+  
+  .quem-somos h2 {
+    font-size: 1.3rem;
+  }
+  
+  .quem-somos li {
+    font-size: 0.85rem;
+    margin: 0.4rem 0;
+  }
+}
 </style>

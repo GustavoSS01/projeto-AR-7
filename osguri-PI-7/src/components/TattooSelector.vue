@@ -96,4 +96,57 @@ h3 {
   margin: 0 0 1rem 0;
   text-align: center;
 }
+
+/* Responsividade Mobile e Tablet */
+@media (max-width: 768px) {
+  .tattoo-selector {
+    padding: 0.75rem;
+    max-width: 100%;
+  }
+  
+  .tattoo-grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 0.75rem;
+  }
+  
+  h3 {
+    font-size: 1.3rem;
+  }
+  
+  .tattoo-name {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tattoo-selector {
+    padding: 0.5rem;
+    border-radius: 8px;
+  }
+  
+  .tattoo-grid {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 0.5rem;
+  }
+  
+  .tattoo-item {
+    padding: 0.3rem;
+    border-width: 1.5px;
+  }
+  
+  h3 {
+    font-size: 1.1rem;
+    margin: 0 0 0.75rem 0;
+  }
+  
+  .tattoo-name {
+    font-size: 0.75rem;
+    margin-top: 0.3rem;
+  }
+  
+  /* Desabilitar hover scale em dispositivos touch para melhor performance */
+  .tattoo-item:hover {
+    transform: none;
+  }
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="app-page">
-    <h1 class="header">TatuAR</h1>
+    <h1 class="header" :class="{ 'header-fixed': showCamera }">TatuAR</h1>
 
     <!-- mostrado apenas antes de iniciar -->
     <div v-if="!showCamera" class="center-content">
@@ -155,32 +155,36 @@ export default {
 <style scoped>
 /* remove margens e paddings globais para evitar overflow */
 .app-page {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
   margin: 0;
   padding: 0;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-/* título sempre visível no topo */
+/* título que se move com o scroll - somente quando câmera não está ativa */
 .header {
+  position: relative;
+  text-align: center;
+  margin: 2rem 0 1rem 0;
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  z-index: 1000;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+  transition: all 0.3s ease;
+}
+
+/* título fixo quando a câmera AR está ativa */
+.header-fixed {
   position: fixed;
   top: 2rem;
   left: 50%;
   transform: translateX(-50%);
-  text-align: center;
   margin: 0;
-  font-size: 2rem;
-  z-index: 1000;
-  color: white;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
   pointer-events: none;
 }
 
@@ -192,17 +196,22 @@ export default {
   align-items: center;
   gap: 2rem;
   width: 100%;
-  height: 100vh;
+  min-height: calc(100vh - 5rem);
   text-align: center;
-  padding: 0 2rem;
+  padding: 0 2rem 2rem 2rem;
   box-sizing: border-box;
+  overflow-y: auto;
 }
 
 .description {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
   font-weight: 600;
   max-width: 500px;
-  line-height: 1.5;
+  line-height: 1.6;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  margin: 0;
 }
 
 /* container AR que ocupa toda a tela */
@@ -213,6 +222,7 @@ export default {
   width: 100vw;
   height: 100vh;
   z-index: 1;
+  overflow: hidden;
 }
 
 /* cena A-Frame ocupa toda a tela como background */
@@ -279,6 +289,116 @@ export default {
 
 .marker-status.active {
   background: rgba(76, 175, 80, 0.9);
+}
+
+/* Responsividade Mobile e Tablet */
+@media (max-width: 768px) {
+  .header {
+    margin: 1.5rem 0 0.75rem 0;
+  }
+  
+  .header-fixed {
+    top: 1.5rem;
+  }
+  
+  .center-content {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    gap: 1.5rem;
+  }
+  
+  .description {
+    max-width: 100%;
+    padding: 0.75rem;
+  }
+  
+  .start-btn {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .stop-btn-fixed {
+    bottom: 2rem;
+    padding: 0.9rem 1.8rem;
+    font-size: 1rem;
+    width: auto;
+    max-width: 90%;
+  }
+  
+  .marker-status {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+    top: 0.75rem;
+    left: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    margin: 1rem 0 0.5rem 0;
+  }
+  
+  .header-fixed {
+    top: 1rem;
+  }
+  
+  .center-content {
+    padding: 0 1rem 1rem 1rem;
+    gap: 1rem;
+  }
+  
+  .description {
+    line-height: 1.5;
+    padding: 0.5rem;
+  }
+  
+  .start-btn {
+    padding: 0.9rem 1.5rem;
+    font-size: 1.1rem;
+    width: 100%;
+    max-width: 280px;
+  }
+  
+  .stop-btn-fixed {
+    bottom: 1.5rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 0.95rem;
+    width: calc(100% - 2rem);
+    max-width: 280px;
+  }
+  
+  .marker-status {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+    top: 0.5rem;
+    left: 0.5rem;
+  }
+}
+
+/* Ajuste para telas muito pequenas (320px) */
+@media (max-width: 360px) {
+  .header {
+    margin: 0.75rem 0 0.5rem 0;
+  }
+  
+  .header-fixed {
+    top: 0.75rem;
+  }
+  
+  .description {
+    padding: 0.4rem;
+  }
+  
+  .start-btn {
+    font-size: 1rem;
+    padding: 0.8rem 1.2rem;
+  }
+  
+  .stop-btn-fixed {
+    font-size: 0.9rem;
+    padding: 0.7rem 1.2rem;
+  }
 }
 
 </style>
