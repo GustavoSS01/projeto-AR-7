@@ -155,11 +155,14 @@ export default {
 <style scoped>
 /* remove margens e paddings globais para evitar overflow */
 .app-page {
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   margin: 0;
   padding: 0;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -176,6 +179,7 @@ export default {
   color: white;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 /* título fixo quando a câmera AR está ativa */
@@ -192,15 +196,16 @@ export default {
 .center-content {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
   width: 100%;
-  min-height: calc(100vh - 5rem);
+  max-width: 100%;
+  height: 100%;
   text-align: center;
-  padding: 0 2rem 2rem 2rem;
+  padding: 1rem 2rem 2rem 2rem;
   box-sizing: border-box;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .description {
@@ -209,9 +214,9 @@ export default {
   max-width: 500px;
   line-height: 1.6;
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.05);
   border-radius: 8px;
   margin: 0;
+  flex-shrink: 0;
 }
 
 /* container AR que ocupa toda a tela */
@@ -267,6 +272,8 @@ export default {
   cursor: pointer;
   transition: background 0.2s;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  flex-shrink: 0;
+  margin-top: auto;
 }
 
 .start-btn:hover { 
@@ -294,7 +301,7 @@ export default {
 /* Responsividade Mobile e Tablet */
 @media (max-width: 768px) {
   .header {
-    margin: 1.5rem 0 0.75rem 0;
+    margin: 1.5rem 0 0.5rem 0;
   }
   
   .header-fixed {
@@ -302,8 +309,8 @@ export default {
   }
   
   .center-content {
-    padding: 0 1.5rem 1.5rem 1.5rem;
-    gap: 1.5rem;
+    padding: 0.5rem 1.5rem 1.5rem 1.5rem;
+    gap: 1rem;
   }
   
   .description {
@@ -336,7 +343,7 @@ export default {
 
 @media (max-width: 480px) {
   .header {
-    margin: 1rem 0 0.5rem 0;
+    margin: 1rem 0 0.25rem 0;
   }
   
   .header-fixed {
@@ -344,8 +351,8 @@ export default {
   }
   
   .center-content {
-    padding: 0 1rem 1rem 1rem;
-    gap: 1rem;
+    padding: 0.25rem 1rem 1rem 1rem;
+    gap: 0.75rem;
   }
   
   .description {

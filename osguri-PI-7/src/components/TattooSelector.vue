@@ -51,14 +51,45 @@ export default {
   background: #696969;
   border-radius: 10px;
   max-width: 600px;
+  width: 100%;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  max-height: 50vh;
+  overflow: hidden;
+}
+
+.tattoo-selector h3 {
+  flex-shrink: 0;
+  margin: 0 0 1rem 0;
 }
 
 .tattoo-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 1rem;
-  margin-top: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 0.5rem;
+}
+
+/* Customização da scrollbar */
+.tattoo-grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.tattoo-grid::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.tattoo-grid::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.tattoo-grid::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .tattoo-item {
@@ -93,7 +124,6 @@ export default {
 }
 
 h3 {
-  margin: 0 0 1rem 0;
   text-align: center;
 }
 
@@ -102,11 +132,17 @@ h3 {
   .tattoo-selector {
     padding: 0.75rem;
     max-width: 100%;
+    max-height: 55vh;
   }
   
   .tattoo-grid {
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 0.75rem;
+    padding-right: 0.25rem;
+  }
+  
+  .tattoo-grid::-webkit-scrollbar {
+    width: 6px;
   }
   
   h3 {
@@ -122,11 +158,17 @@ h3 {
   .tattoo-selector {
     padding: 0.5rem;
     border-radius: 8px;
+    max-height: 60vh;
   }
   
   .tattoo-grid {
     grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
     gap: 0.5rem;
+    padding-right: 0.25rem;
+  }
+  
+  .tattoo-grid::-webkit-scrollbar {
+    width: 5px;
   }
   
   .tattoo-item {
@@ -136,7 +178,6 @@ h3 {
   
   h3 {
     font-size: 1.1rem;
-    margin: 0 0 0.75rem 0;
   }
   
   .tattoo-name {
