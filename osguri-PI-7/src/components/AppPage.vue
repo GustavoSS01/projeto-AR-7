@@ -50,8 +50,27 @@
         {{ markerVisible ? 'Marker detectado!' : 'Procurando marker...' }}
       </div>
 
-      <!-- botão parar centralizado na parte inferior -->
-      <button class="stop-btn-fixed" @click="stopCamera">Parar vídeo</button>
+      <!-- indicador da tatuagem atual -->
+      <div class="tattoo-indicator">
+        {{ tattoos[currentTattooIndex].name }} ({{ currentTattooIndex + 1 }}/{{ tattoos.length }})
+      </div>
+
+      <!-- controles de navegação na parte inferior -->
+      <div class="navigation-controls">
+        <button class="nav-btn prev-btn" @click="previousTattoo" title="Tatuagem Anterior">
+          <span class="arrow">‹</span>
+          <span class="btn-text">Anterior</span>
+        </button>
+        
+        <button class="nav-btn stop-btn" @click="stopCamera" title="Parar Câmera">
+          <span class="btn-text">Parar câmera</span>
+        </button>
+        
+        <button class="nav-btn next-btn" @click="nextTattoo" title="Próxima Tatuagem">
+          <span class="btn-text">Próxima</span>
+          <span class="arrow">›</span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -69,11 +88,22 @@ export default {
       showCamera: false,
       aframeReady: false,
       markerVisible: false,
-      // corrigindo o caminho - o arquivo se chama marker.patt, não maker.patt
       markerPath: './marker/marker.patt',
-      // usando caminho direto para a imagem na pasta public
       tattooUrl: './tattoos/tatuagemteste3.png',
-      planeSize: 1.5, // aumentando o tamanho para melhor visualização
+      planeSize: 1.5,
+      currentTattooIndex: 2, // índice inicial (tatuagemteste3 = índice 2)
+      tattoos: [
+        { id: 1, name: 'Tatuagem 1', url: './tattoos/tatuagemteste1.png' },
+        { id: 2, name: 'Tatuagem 2', url: './tattoos/tatuagemteste2.png' },
+        { id: 3, name: 'Tatuagem 3', url: './tattoos/tatuagemteste3.png' },
+        { id: 4, name: 'Tatuagem 4', url: './tattoos/tatuagemteste4.png' },
+        { id: 5, name: 'Tatuagem 5', url: './tattoos/tatuagemteste5.png' },
+        { id: 6, name: 'Tatuagem 6', url: './tattoos/tatuagemteste6.png' },
+        { id: 7, name: 'Tatuagem 7', url: './tattoos/tatuagemteste7.png' },
+        { id: 8, name: 'Tatuagem 8', url: './tattoos/tatuagemteste8.png' },
+        { id: 9, name: 'Tatuagem 9', url: './tattoos/tatuagemteste9.png' },
+        { id: 10, name: 'Tatuagem 10', url: './tattoos/tatuagemteste10.png' },
+      ]
     };
   },
   methods: {
@@ -138,6 +168,23 @@ export default {
     },
     updateTattoo(newTattooUrl) {
       this.tattooUrl = newTattooUrl;
+      // atualiza o índice quando uma tatuagem é selecionada
+      const index = this.tattoos.findIndex(t => t.url === newTattooUrl);
+      if (index !== -1) {
+        this.currentTattooIndex = index;
+      }
+    },
+    nextTattoo() {
+      this.currentTattooIndex = (this.currentTattooIndex + 1) % this.tattoos.length;
+      this.tattooUrl = this.tattoos[this.currentTattooIndex].url;
+      console.log('Próxima tatuagem:', this.tattoos[this.currentTattooIndex].name);
+    },
+    previousTattoo() {
+      this.currentTattooIndex = this.currentTattooIndex === 0 
+        ? this.tattoos.length - 1 
+        : this.currentTattooIndex - 1;
+      this.tattooUrl = this.tattoos[this.currentTattooIndex].url;
+      console.log('Tatuagem anterior:', this.tattoos[this.currentTattooIndex].name);
     }
   },
   beforeDestroy() {
@@ -239,26 +286,90 @@ export default {
   height: 100vh !important;
 }
 
-/* botão parar fixo na parte inferior centralizado */
-.stop-btn-fixed {
+/* indicador da tatuagem atual */
+.tattoo-indicator {
   position: fixed;
-  bottom: 3rem;
+  top: 4.5rem;
   left: 50%;
   transform: translateX(-50%);
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  font-weight: 600;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
+  white-space: nowrap;
+}
+
+/* controles de navegação na parte inferior */
+.navigation-controls {
+  position: fixed;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  z-index: 1000;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
   color: #fff;
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  background: #d32f2f;
-  z-index: 1000;
   box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-  transition: background 0.2s;
+  transition: all 0.2s;
+  backdrop-filter: blur(10px);
 }
 
-.stop-btn-fixed:hover {
-  background: #b71c1c;
+.prev-btn {
+  background: rgba(25, 118, 210, 0.9);
+}
+
+.prev-btn:hover {
+  background: rgba(21, 101, 192, 1);
+  transform: translateX(-3px);
+}
+
+.next-btn {
+  background: rgba(25, 118, 210, 0.9);
+}
+
+.next-btn:hover {
+  background: rgba(21, 101, 192, 1);
+  transform: translateX(3px);
+}
+
+.stop-btn {
+  background: rgba(211, 47, 47, 0.9);
+  padding: 0.9rem 1.2rem;
+  min-width: 60px;
+}
+
+.stop-btn:hover {
+  background: rgba(183, 28, 28, 1);
+  transform: scale(1.05);
+}
+
+.arrow {
+  font-size: 1.8rem;
+  line-height: 1;
+  font-weight: bold;
+}
+
+.btn-text {
+  font-size: 1rem;
+  line-height: 1;
 }
 
 /* botão iniciar */
@@ -325,12 +436,31 @@ export default {
     max-width: 300px;
   }
   
-  .stop-btn-fixed {
+  .tattoo-indicator {
+    top: 4rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+  }
+  
+  .navigation-controls {
     bottom: 2rem;
-    padding: 0.9rem 1.8rem;
-    font-size: 1rem;
-    width: auto;
-    max-width: 90%;
+    gap: 0.75rem;
+    width: 90%;
+    max-width: 100%;
+  }
+  
+  .nav-btn {
+    padding: 0.8rem 1.2rem;
+    font-size: 0.9rem;
+  }
+  
+  .stop-btn {
+    padding: 0.8rem 1rem;
+    min-width: 50px;
+  }
+  
+  .arrow {
+    font-size: 1.5rem;
   }
   
   .marker-status {
@@ -367,12 +497,38 @@ export default {
     max-width: 280px;
   }
   
-  .stop-btn-fixed {
+  .tattoo-indicator {
+    top: 3.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    max-width: 90%;
+  }
+  
+  .navigation-controls {
     bottom: 1.5rem;
-    padding: 0.8rem 1.5rem;
-    font-size: 0.95rem;
-    width: calc(100% - 2rem);
-    max-width: 280px;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    width: 95%;
+  }
+  
+  .nav-btn {
+    padding: 0.7rem 1rem;
+    font-size: 0.85rem;
+    flex: 1;
+  }
+  
+  .stop-btn {
+    padding: 0.7rem 0.8rem;
+    min-width: 45px;
+    flex: 0 0 auto;
+  }
+  
+  .btn-text {
+    font-size: 0.85rem;
+  }
+  
+  .arrow {
+    font-size: 1.3rem;
   }
   
   .marker-status {
@@ -402,9 +558,33 @@ export default {
     padding: 0.8rem 1.2rem;
   }
   
-  .stop-btn-fixed {
-    font-size: 0.9rem;
-    padding: 0.7rem 1.2rem;
+  .tattoo-indicator {
+    top: 3rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+  }
+  
+  .navigation-controls {
+    bottom: 1rem;
+    gap: 0.4rem;
+  }
+  
+  .nav-btn {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.75rem;
+  }
+  
+  .stop-btn {
+    padding: 0.6rem 0.7rem;
+    min-width: 40px;
+  }
+  
+  .btn-text {
+    font-size: 0.75rem;
+  }
+  
+  .arrow {
+    font-size: 1.2rem;
   }
 }
 
