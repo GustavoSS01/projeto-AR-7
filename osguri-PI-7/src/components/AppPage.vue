@@ -18,9 +18,17 @@
         v-if="aframeReady"
         embedded
         vr-mode-ui="enabled: false"
-        renderer="logarithmicDepthBuffer: true;"
+        renderer="logarithmicDepthBuffer: true; antialias: true;"
         class="ar-scene"
-        arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
+        loading-screen="enabled: false"
+        arjs="sourceType: webcam; 
+              debugUIEnabled: false; 
+              detectionMode: mono_and_matrix; 
+              matrixCodeType: 3x3;
+              sourceWidth: 1920;
+              sourceHeight: 1080;
+              displayWidth: window.innerWidth;
+              displayHeight: window.innerHeight;">
         
         <a-marker
           type="pattern"
@@ -200,6 +208,17 @@ export default {
 </script>
 
 <style scoped>
+/* Reset global para garantir que não haja scroll */
+:deep(html),
+:deep(body) {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
 /* remove margens e paddings globais para evitar overflow */
 .app-page {
   position: fixed;
@@ -214,6 +233,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
 }
 
 /* título que se move com o scroll - somente quando câmera não está ativa */
@@ -275,15 +295,44 @@ export default {
   height: 100vh;
   z-index: 1;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 /* cena A-Frame ocupa toda a tela como background */
 .ar-scene {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
   width: 100vw !important;
   height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+}
+
+/* Estilos para o canvas gerado pelo A-Frame */
+:deep(.a-canvas) {
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  object-fit: cover !important;
+}
+
+/* Ajuste para o vídeo da câmera */
+:deep(video) {
+  object-fit: cover !important;
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 /* indicador da tatuagem atual */
