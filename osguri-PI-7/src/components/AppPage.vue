@@ -111,6 +111,7 @@ export default {
         { id: 8, name: 'Tatuagem 8', url: './tattoos/tatuagemteste8.png' },
         { id: 9, name: 'Tatuagem 9', url: './tattoos/tatuagemteste9.png' },
         { id: 10, name: 'Tatuagem 10', url: './tattoos/tatuagemteste10.png' },
+        { id: 11, name: 'Tatuagem 11', url: './tattoos/tatuagemteste11.png' }
       ]
     };
   },
