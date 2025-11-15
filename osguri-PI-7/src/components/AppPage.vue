@@ -10,6 +10,9 @@
       <!-- Adicione o TattooSelector aqui -->
       <TattooSelector @tattoo-selected="updateTattoo" />
       <button class="start-btn" @click="startCamera">Vamos lá!</button>
+      
+      <!-- Botão de download -->
+      <DownloadButton />
     </div>
 
     <!-- após iniciar: câmera como background de toda a tela + AR -->
@@ -85,11 +88,13 @@
 
 <script>
 import TattooSelector from './TattooSelector.vue'
+import DownloadButton from './DownloadButton.vue'
 
 export default {
   name: 'AppPage',
   components: {
-    TattooSelector
+    TattooSelector,
+    DownloadButton
   },
   data() {
     return {
