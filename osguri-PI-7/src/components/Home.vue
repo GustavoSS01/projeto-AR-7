@@ -64,17 +64,19 @@ export default {
         return;
       }
 
+      console.log("Fazendo requisição para:", `https://upgraded-happiness-9rvrr9w9ppj3v64-3000.app.github.dev/users?code=${user}`);
+
       fetch(
         `https://upgraded-happiness-9rvrr9w9ppj3v64-3000.app.github.dev/users?code=${user}`
       )
         .then(async (res) => {
           return await res.json();
         })
-        .then((user) => {
-          console.log("user", user);
+        .then((userData) => {
+          console.log("userData recebida:", userData);
           
           let scoreData = {
-            userId: user[0].id,
+            userId: userData[0].id,
             experienceId: 1,
             score: this.pontos
           };
