@@ -104,7 +104,7 @@ export default {
       markerPath: './marker/marker.patt',
       tattooUrl: './tattoos/tatuagemteste3.png',
       planeSize: 1.5,
-      currentTattooIndex: 2, // índice inicial (tatuagemteste3 = índice 2)
+      currentTattooIndex: 2,
       tattoos: [
         { id: 1, name: 'Tatuagem 1', url: './tattoos/tatuagemteste1.png' },
         { id: 2, name: 'Tatuagem 2', url: './tattoos/tatuagemteste2.png' },
@@ -117,8 +117,19 @@ export default {
         { id: 9, name: 'Tatuagem 9', url: './tattoos/tatuagemteste9.png' },
         { id: 10, name: 'Tatuagem 10', url: './tattoos/tatuagemteste10.png' },
         { id: 11, name: 'Tatuagem 11', url: './tattoos/tatuagemteste11.png' }
-      ]
+      ],
+      pontos: 0
     };
+  },
+  mounted() {
+    // Pega o código da URL e salva no localStorage ao montar o componente
+    let userCode = window.location.search.replace("?", "");
+    if (userCode) {
+      localStorage.setItem("userCode", userCode);
+      console.log("Código do usuário salvo:", userCode);
+    } else {
+      console.log("Nenhum código encontrado na URL - modo desenvolvimento");
+    }
   },
   methods: {
     loadScript(src) {
@@ -134,20 +145,15 @@ export default {
     },
     async startCamera() {
       try {
-        // carrega A-Frame e AR.js
         if (!window.AFRAME) {
           await this.loadScript('https://aframe.io/releases/1.3.0/aframe.min.js');
         }
-        // Tente usar este CDN alternativo do AR.js
         if (!window.ARJS && !document.querySelector('script[src*="ar-nft.js"]')) {
           await this.loadScript('https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar-nft.js');
         }
-
         this.showCamera = true;
-
         this.$nextTick(() => {
           this.aframeReady = true;
-          // força a detecção do marker após alguns segundos
           setTimeout(() => {
             console.log('AR.js inicializado, procurando markers...');
           }, 3000);
@@ -161,8 +167,6 @@ export default {
       this.markerVisible = false;
       this.aframeReady = false;
       this.showCamera = false;
-
-      // para streams de vídeo
       const videos = document.querySelectorAll('video');
       videos.forEach(video => {
         try {
@@ -182,7 +186,6 @@ export default {
     },
     updateTattoo(newTattooUrl) {
       this.tattooUrl = newTattooUrl;
-      // atualiza o índice quando uma tatuagem é selecionada
       const index = this.tattoos.findIndex(t => t.url === newTattooUrl);
       if (index !== -1) {
         this.currentTattooIndex = index;
@@ -199,7 +202,86 @@ export default {
         : this.currentTattooIndex - 1;
       this.tattooUrl = this.tattoos[this.currentTattooIndex].url;
       console.log('Tatuagem anterior:', this.tattoos[this.currentTattooIndex].name);
-    }
+    },
+    handleStart() {
+      // Inicia a câmera primeiro (funcionalidade principal)
+      this.startCamera();
+      // Tenta salvar pontos apenas se houver código válido
+      this.saveScores();
+    },
+    async saveScores() {
+      try {
+        let pontos = this.pontos;
+        console.log("pontos", pontos);
+
+        let userCode = localStorage.getItem("userCode");
+        
+        // Verifica se tem código válido
+        if (!userCode || userCode === 'null' || userCode === '') {
+          console.log("Nenhum código de usuário válido encontrado. Pulando salvamento de pontos.");
+          return;
+        }
+
+        console.log("Tentando salvar pontos para o usuário:", userCode);
+
+        const userResponse = await fetch(
+          `https://solid-palm-tree-6q6qqgw9grxcrv7x-3000.app.github.dev/users?code=${userCode}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+
+        if (!userResponse.ok) {
+          throw new Error(`Erro HTTP: ${userResponse.status}`);
+        }
+
+        const userData = await userResponse.json();
+        console.log("Dados do usuário:", userData);
+
+        if (!userData || userData.length === 0) {
+          throw new Error("Usuário não encontrado");
+        }
+
+        let scoreData = {
+          userId: userData[0].id,
+          experienceId: 1,
+          score: pontos
+        };
+
+        console.log('Dados do score a serem enviados:', scoreData);
+
+        const scoreResponse = await fetch(
+          `https://solid-palm-tree-6q6qqgw9grxcrv7x-3000.app.github.dev/experienceScores`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(scoreData),
+          }
+        );
+
+        if (!scoreResponse.ok) {
+          throw new Error(`Erro ao salvar score: ${scoreResponse.status}`);
+        }
+
+        const scoreResult = await scoreResponse.json();
+        console.log("Dados enviados com sucesso:", scoreResult);
+
+        // Redireciona após sucesso
+        setTimeout(() => {
+          window.location.href =
+            "https://solid-palm-tree-6q6qqgw9grxcrv7x-3000.app.github.dev/pages/auth";
+        }, 10000);
+
+      } catch (error) {
+        console.warn("Erro ao salvar pontos (modo desenvolvimento ou problema de conexão):", error.message);
+        // Não mostra erro para o usuário - continua funcionamento normal
+      }
+    },
   },
   beforeDestroy() {
     const videos = document.querySelectorAll('video');
@@ -642,5 +724,4 @@ export default {
     font-size: 1.2rem;
   }
 }
-
 </style>
