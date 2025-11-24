@@ -25,10 +25,85 @@
 <script>
 export default {
   name: 'HomePage',
+  mounted() {
+    // Implementa a lógica DOMContentLoaded do professor
+    // Pega o código da URL atual
+    let userCode = window.location;
+    userCode = userCode.search.replace("?", "");
+    console.log("UserCode capturado na Home:", userCode);
+
+    // Salva no localStorage
+    if (userCode && userCode !== "") {
+      localStorage.setItem("userCode", userCode);
+      console.log("Código do usuário salvo:", userCode);
+    } else {
+      console.log("Nenhum código encontrado na URL - modo desenvolvimento");
+    }
+  },
+  data() {
+    return {
+      pontos: 0
+    };
+  },
   methods: {
     irParaApp() {
+      // Chama saveScores antes de redirecionar
+      this.saveScores();
       // Redireciona para a rota do aplicativo principal
       this.$router.push('/app');
+    },
+    saveScores() {
+      // Implementação exata da função do professor adaptada para Vue
+      console.log("pontos", this.pontos);
+
+      let user = localStorage.getItem("userCode");
+
+      // Verifica se tem código válido antes de fazer requisição
+      if (!user || user === '' || user === 'null') {
+        console.log("Nenhum código de usuário válido encontrado. Pulando salvamento de pontos.");
+        return;
+      }
+
+      fetch(
+        `https://solid-palm-tree-6q6qqgw9grxcrv7x-3000.app.github.dev/users?code=${user}`
+      )
+        .then(async (res) => {
+          return await res.json();
+        })
+        .then((user) => {
+          console.log("user", user);
+          
+          let scoreData = {
+            userId: user[0].id,
+            experienceId: 1,
+            score: this.pontos
+          };
+        
+          console.log('score', scoreData);
+
+          fetch(
+            `https://solid-palm-tree-6q6qqgw9grxcrv7x-3000.app.github.dev/experienceScores`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(scoreData),
+            }
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              console.log("Dados enviados com sucesso:", data);
+            })
+            .catch((error) => {
+              console.error("Erro ao salvar os dados:", error);
+            });
+        })
+        .catch((error) => {
+          console.error("Erro ao buscar usuário:", error);
+        });
+      
+      // Não redireciona automaticamente - deixa o Vue router fazer isso
     }
   }
 }

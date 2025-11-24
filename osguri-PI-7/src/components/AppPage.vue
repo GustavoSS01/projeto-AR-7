@@ -9,7 +9,7 @@
       </p>
       <!-- Adicione o TattooSelector aqui -->
       <TattooSelector @tattoo-selected="updateTattoo" />
-      <button class="start-btn" @click="handleStart">Vamos lá!</button>
+      <button class="start-btn" @click="startCamera">Vamos lá!</button>
       
       <!-- Botão de download -->
       <DownloadButton />
@@ -121,21 +121,6 @@ export default {
       pontos: 0
     };
   },
-  mounted() {
-    // Implementa a lógica DOMContentLoaded do professor
-    // Pega o código da URL atual
-    let userCode = window.location;
-    userCode = userCode.search.replace("?", "");
-    console.log(userCode);
-
-    // Salva no localStorage
-    if (userCode) {
-      localStorage.setItem("userCode", userCode);
-      console.log("Código do usuário salvo:", userCode);
-    } else {
-      console.log("Nenhum código encontrado na URL - modo desenvolvimento");
-    }
-  },
   methods: {
     loadScript(src) {
       return new Promise((resolve, reject) => {
@@ -207,68 +192,6 @@ export default {
         : this.currentTattooIndex - 1;
       this.tattooUrl = this.tattoos[this.currentTattooIndex].url;
       console.log('Tatuagem anterior:', this.tattoos[this.currentTattooIndex].name);
-    },
-    handleStart() {
-      // Inicia a câmera primeiro (funcionalidade principal)
-      this.startCamera();
-      // Tenta salvar pontos apenas se houver código válido
-      this.saveScores();
-    },
-    saveScores() {
-      // Implementação exata da função do professor adaptada para Vue
-      console.log("pontos", this.pontos);
-
-      let user = localStorage.getItem("userCode");
-
-      // Verifica se tem código válido antes de fazer requisição
-      if (!user || user === '' || user === 'null') {
-        console.log("Nenhum código de usuário válido encontrado. Pulando salvamento de pontos.");
-        return;
-      }
-
-      fetch(
-        `https://solid-palm-tree-6q6qqgw9grxcrv7x-3000.app.github.dev/users?code=${user}`
-      )
-        .then(async (res) => {
-          return await res.json();
-        })
-        .then((user) => {
-          console.log("user", user);
-          
-          let scoreData = {
-            userId: user[0].id,
-            experienceId: 1,
-            score: this.pontos
-          };
-        
-          console.log('score', scoreData);
-
-          fetch(
-            `https://solid-palm-tree-6q6qqgw9grxcrv7x-3000.app.github.dev/experienceScores`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(scoreData),
-            }
-          )
-            .then((res) => res.json())
-            .then((data) => {
-              console.log("Dados enviados com sucesso:", data);
-            })
-            .catch((error) => {
-              console.error("Erro ao salvar os dados:", error);
-            });
-        })
-        .catch((error) => {
-          console.error("Erro ao buscar usuário:", error);
-        });
-      
-      setTimeout(() => {
-        window.location.href =
-          "https://solid-palm-tree-6q6qqgw9grxcrv7x-3000.app.github.dev/pages/auth";
-      }, 10000);
     },
   },
   beforeDestroy() {
