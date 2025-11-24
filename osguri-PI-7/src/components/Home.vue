@@ -65,7 +65,7 @@ export default {
       }
 
       fetch(
-        `https://solid-palm-tree-6q6qqgw9grxcrv7x-3000.app.github.dev/users?code=${user}`
+        `https://upgraded-happiness-9rvrr9w9ppj3v64-3000.app.github.dev/users?code=${user}`
       )
         .then(async (res) => {
           return await res.json();
@@ -82,7 +82,7 @@ export default {
           console.log('score', scoreData);
 
           fetch(
-            `https://solid-palm-tree-6q6qqgw9grxcrv7x-3000.app.github.dev/experienceScores`,
+            `https://upgraded-happiness-9rvrr9w9ppj3v64-3000.app.github.dev/experienceScores`,
             {
               method: "POST",
               headers: {
