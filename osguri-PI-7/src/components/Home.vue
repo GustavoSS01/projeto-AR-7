@@ -50,66 +50,8 @@ export default {
   },
   methods: {
     irParaApp() {
-      // Chama saveScores antes de redirecionar
-      this.saveScores();
       // Redireciona para a rota do aplicativo principal
       this.$router.push('/app');
-    },
-    saveScores(pontos = this.pontos) {
-      // SALVAR PONTOS - adaptado do código do professor
-      console.log("pontos", pontos);
-
-      let user = localStorage.getItem("userCode");
-
-      // Tratamento para modo de desenvolvimento
-      if (!user || user === '' || user === 'null') {
-        console.log("Aplicação em modo de desenvolvimento - não será enviado score");
-        return;
-      }
-
-      fetch(
-        `https://base-presentation-vrar.onrender.com/users?${user}`
-      )
-        .then(async (res) => {
-          return await res.json();
-        })
-        .then((user) => {
-        
-        console.log("user", user)
-        
-          let scoreData = {
-            userId: user[0].id,
-            experienceId: 1,
-            score: 0
-          };
-        
-        console.log('score', scoreData)
-
-          fetch(
-            `https://base-presentation-vrar.onrender.com/experienceScores`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(scoreData),
-            }
-          )
-            .then((res) => res.json())
-            .then((data) => {
-              console.log("Dados enviados com sucesso:", data);
-            })
-            .catch((error) => {
-              console.error("Erro ao salvar os dados:", error);
-            });
-        });
-      
-
-      setTimeout(() => {
-        window.location.href =
-          "https://base-presentation-vrar.onrender.com/pages/auth";
-      }, 10000)
-
     }
   }
 }
