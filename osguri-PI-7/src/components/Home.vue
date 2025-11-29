@@ -26,18 +26,21 @@
 export default {
   name: 'HomePage',
   mounted() {
-    // Implementa a lógica DOMContentLoaded do professor
-    // Pega o código da URL atual
+    // Pega o código da URL atual, seguindo exatamente o código do professor
     let userCode = window.location;
     userCode = userCode.search.replace("?", "");
-    console.log("UserCode capturado na Home:", userCode);
+    
+    // Extrai apenas o valor após o = se houver
+    if (userCode && userCode.includes("=")) {
+      userCode = userCode.split("=")[1]; // pega apenas a parte após o =
+    }
+    
+    console.log(userCode);
 
     // Salva no localStorage
-    if (userCode && userCode !== "") {
+    if (userCode) {
       localStorage.setItem("userCode", userCode);
       console.log("Código do usuário salvo:", userCode);
-    } else {
-      console.log("Nenhum código encontrado na URL - modo desenvolvimento");
     }
   },
   data() {
@@ -52,39 +55,38 @@ export default {
       // Redireciona para a rota do aplicativo principal
       this.$router.push('/app');
     },
-    saveScores() {
-      // Implementação exata da função do professor adaptada para Vue
-      console.log("pontos", this.pontos);
+    saveScores(pontos = this.pontos) {
+      // SALVAR PONTOS - adaptado do código do professor
+      console.log("pontos", pontos);
 
       let user = localStorage.getItem("userCode");
 
-      // Verifica se tem código válido antes de fazer requisição
+      // Tratamento para modo de desenvolvimento
       if (!user || user === '' || user === 'null') {
-        console.log("Nenhum código de usuário válido encontrado. Pulando salvamento de pontos.");
+        console.log("Aplicação em modo de desenvolvimento - não será enviado score");
         return;
       }
 
-      console.log("Fazendo requisição para:", `https://upgraded-happiness-9rvrr9w9ppj3v64-3000.app.github.dev/users?code=${user}`);
-
       fetch(
-        `https://upgraded-happiness-9rvrr9w9ppj3v64-3000.app.github.dev/users?code=${user}`
+        `https://base-presentation-vrar.onrender.com/users?${user}`
       )
         .then(async (res) => {
           return await res.json();
         })
-        .then((userData) => {
-          console.log("userData recebida:", userData);
-          
+        .then((user) => {
+        
+        console.log("user", user)
+        
           let scoreData = {
-            userId: userData[0].id,
+            userId: user[0].id,
             experienceId: 1,
-            score: this.pontos
+            score: 0
           };
         
-          console.log('score', scoreData);
+        console.log('score', scoreData)
 
           fetch(
-            `https://upgraded-happiness-9rvrr9w9ppj3v64-3000.app.github.dev/experienceScores`,
+            `https://base-presentation-vrar.onrender.com/experienceScores`,
             {
               method: "POST",
               headers: {
@@ -100,12 +102,14 @@ export default {
             .catch((error) => {
               console.error("Erro ao salvar os dados:", error);
             });
-        })
-        .catch((error) => {
-          console.error("Erro ao buscar usuário:", error);
         });
       
-      // Não redireciona automaticamente - deixa o Vue router fazer isso
+
+      setTimeout(() => {
+        window.location.href =
+          "https://base-presentation-vrar.onrender.com/pages/auth";
+      }, 10000)
+
     }
   }
 }
